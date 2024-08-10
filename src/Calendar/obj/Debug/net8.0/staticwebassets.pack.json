@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\jhoner.silva\\source\\repos\\CalendarApp\\src\\Calendar\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Calendar.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Calendar.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\jhoner.silva\\source\\repos\\CalendarApp\\src\\Calendar\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\jhoner.silva\\source\\repos\\CalendarApp\\src\\Calendar\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\jhoner.silva\\source\\repos\\CalendarApp\\src\\Calendar\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\jhoner.silva\\source\\repos\\CalendarApp\\src\\Calendar\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Calendar.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Calendar.props",
+      "PackagePath": "build\\Calendar.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Calendar.props",
+      "PackagePath": "buildMultiTargeting\\Calendar.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Calendar.props",
+      "PackagePath": "buildTransitive\\Calendar.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

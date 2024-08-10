@@ -1,0 +1,87 @@
+﻿@using Application.Requests
+@using global::Calendar.DTOS
+@inject MediatR.IMediator Mediator
+<div>
+    <InputDate @bind-Value="selectedDate" class="form-control"/>
+</div>
+<div>
+   <table class="table-striped">
+       <thead>
+           <tr>
+               <th>Title</th>
+               <th>Start Date</th>
+               <th>End Date</th>
+               <th>Location</th>
+               <th>Description</th>
+           </tr>
+       </thead>
+       <tbody>
+           @foreach (var item in events)
+           {
+               <tr>
+                   <td>@item.Title</td>
+                   <td>@item.StartDate</td>
+                   <td>@item.EndDate</td>
+                   <td>@item.Location</td>
+                   <td>@item.Description</td>
+                   <td>
+                       <button class="btn btn-primary" @onclick="()=>AddEvent(item)">Add</button>
+                       <button class="btn btn-danger" @onclick="()=>EditEvent(item)">Edit</button></td>
+               </tr>
+           }
+       </tbody>
+       </table>
+</div>
+
+@code {
+
+    private DateOnly selectedDate = DateOnly.FromDateTime(DateTime.Now);
+    private List<CalendarEvent> events = new List<CalendarEvent>();
+
+    protected override Task OnInitializedAsync()
+    {
+        RefreshEvents();
+        return base.OnInitializedAsync();
+    }
+
+    private void AddEvent(CalendarEvent calendarEvent)
+    {
+        var eventToAdd = new AddEventRequest(){
+            Title = calendarEvent.Title,
+            StartDate = calendarEvent.StartDate,
+            EndDate = calendarEvent.EndDate,
+            Location = calendarEvent.Location,
+            Description = calendarEvent.Description
+        };
+        var result = Mediator.Send(eventToAdd); 
+
+    }
+
+    private void EditEvent(CalendarEvent calendarEvent)
+    {
+        events.Remove(calendarEvent);
+    }
+
+    private void RefreshEvents()
+    {
+        events = new List<CalendarEvent>
+        {
+            new CalendarEvent
+            {
+                Title = "Meeting",
+                StartDate = DateOnly.FromDateTime(DateTime.Now),
+                EndDate = DateOnly.FromDateTime(DateTime.Now),
+                Location = "Office",
+                Description = "Meeting with the team"
+            },
+            new CalendarEvent
+            {
+                Title = "Lunch",
+                StartDate =DateOnly.FromDateTime(DateTime.Now),
+                EndDate = DateOnly.FromDateTime(DateTime.Now),
+                Location = "Restaurant",
+                Description = "Lunch with the team"
+            }
+        };
+    }
+}
