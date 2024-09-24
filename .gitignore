@@ -1,15 +1,73 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+﻿# ============================
+# .NET 8 and Blazor .gitignore
+# ============================
 
-*.dll
-*.db
-*.db-shm
-/src/Calendar/.vs/Calendar/CopilotIndices/0.2.1634.3922
-/src/Application/obj/project.nuget.cache
-/src/Application/obj/Application.csproj.nuget.g.props
-/src/Application/obj/Debug/net8.0/Application.AssemblyInfoInputs.cache
-/src/Application/obj/Debug/net8.0/Application.assets.cache
-/src/Application/obj/Application.csproj.nuget.dgspec.json
-/src/Application/obj/project.assets.json
-/src/Calendar/.vs/ProjectEvaluation/calendar.metadata.v8.bin
+# ** Visual Studio **
+.vs/
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ** Build Folders **
+# Ignore build outputs in all src subdirectories
+src/**/bin/
+src/**/obj/
+src/**/out/
+
+# ** NuGet **
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+src/**/packages/*
+# Except build/, which is used as an MSBuild target.
+!src/**/packages/build/
+# Uncomment if you have *.nuspec files
+# src/**/*.nuspec
+
+# ** ASP.NET Scaffolding **
+src/**/ScaffoldingReadMe.txt
+
+# ** StyleCop **
+src/**/StyleCopReport.xml
+
+# ** Rider **
+.idea/
+*.sln.iml
+
+# ** Visual Studio Code **
+.vscode/
+.history/
+
+# ** Logs and Databases **
+*.log
+*.sql
+*.sqlite
+
+# ** OS Generated Files **
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# ** Publish Output **
+src/**/publish/
+
+# ** Backup & Report Files **
+*_Backup_*
+*_Report.xml
+
+# ** Other Files to Ignore **
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.cache
+*.mdb
+*.opendb
+*.VC.db
+
+# ** Blazor Specific **
+# No additional ignores required beyond standard .NET
+# If you have client-side generated files that are not needed, add them here

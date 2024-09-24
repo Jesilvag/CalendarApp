@@ -5,7 +5,10 @@
     <InputDate @bind-Value="selectedDate" class="form-control"/>
 </div>
 <div>
-   <table class="table-striped">
+    <button class="btn btn-primary" @onclick="()=>AddEvent()">Add</button>
+</div>
+<div>
+   <table class="table">
        <thead>
            <tr>
                <th>Title</th>
@@ -25,7 +28,6 @@
                    <td>@item.Location</td>
                    <td>@item.Description</td>
                    <td>
-                       <button class="btn btn-primary" @onclick="()=>AddEvent(item)">Add</button>
                        <button class="btn btn-danger" @onclick="()=>EditEvent(item)">Edit</button></td>
                </tr>
            }
@@ -33,7 +35,17 @@
        </table>
 </div>
 
+<Modal @ref="modal" Title="Modal title">
+    <BodyTemplate>
+        Modal body text goes here.
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="() => CloseModal()">Close</Button>
+        <Button Color="ButtonColor.Primary">Save changes</Button>
+    </FooterTemplate>
+</Modal>
 @code {
+    private Modal modal = default!;
 
     private DateOnly selectedDate = DateOnly.FromDateTime(DateTime.Now);
     private List<CalendarEvent> events = new List<CalendarEvent>();
@@ -43,17 +55,15 @@
         RefreshEvents();
         return base.OnInitializedAsync();
     }
-
-    private void AddEvent(CalendarEvent calendarEvent)
+    private async void CloseModal()
     {
-        var eventToAdd = new AddEventRequest(){
-            Title = calendarEvent.Title,
-            StartDate = calendarEvent.StartDate,
-            EndDate = calendarEvent.EndDate,
-            Location = calendarEvent.Location,
-            Description = calendarEvent.Description
-        };
-        var result = Mediator.Send(eventToAdd); 
+        await modal.HideAsync();
+    }
+    private async void AddEvent()
+    {
+        await modal.ShowAsync();
+       
+       // var result = Mediator.Send(eventToAdd); 
 
     }
 
