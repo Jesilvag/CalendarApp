@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.dll
+*.db
+*.db-shm
+/src/Calendar/.vs/Calendar/CopilotIndices/0.2.1634.3922
+/src/Application/obj/project.nuget.cache
+/src/Application/obj/Application.csproj.nuget.g.props
+/src/Application/obj/Debug/net8.0/Application.AssemblyInfoInputs.cache
+/src/Application/obj/Debug/net8.0/Application.assets.cache
+/src/Application/obj/Application.csproj.nuget.dgspec.json
+/src/Application/obj/project.assets.json
+/src/Calendar/.vs/ProjectEvaluation/calendar.metadata.v8.bin
