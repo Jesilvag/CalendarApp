@@ -1,5 +1,4 @@
-﻿using Calendar.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Calendar.Application
@@ -10,7 +9,6 @@ namespace Calendar.Application
         {
             services.AddMediatR(opt => opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddInfrastructureServices("CalendarDb");
             return services;
         }
     }

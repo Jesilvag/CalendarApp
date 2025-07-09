@@ -1,20 +1,17 @@
-﻿using Calendar.Application.Requests;
+﻿using Calendar.Application.Abstractions;
+using Calendar.Application.Requests;
 using Calendar.Domain.Entities;
-using Calendar.Infrastructure;
 using MediatR;
 
 namespace Calendar.Application.Commands
 {
-    public class AddEvent : IRequestHandler<AddEventRequest, int>
+    public class AddEventHandler(IEventRepository repository) : IRequestHandler<AddEventRequest, int>
     {
-        private readonly ApplicationContext _context;
-        public AddEvent(ApplicationContext context)
-        {
-            _context = context;
-        }
+        private readonly IEventRepository _repository = repository;
+
         public async Task<int> Handle(AddEventRequest request, CancellationToken cancellationToken)
         {
-            var entity = new Event
+            var entity = new CalendarEvent
             {
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
@@ -22,8 +19,8 @@ namespace Calendar.Application.Commands
                 Description = request.Description,
                 Location = request.Location
             };
-            await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await _repository.AddAsync(entity, cancellationToken);
+            await _repository.SaveChangesAsync(cancellationToken);
             return entity.Id;
         }
     }

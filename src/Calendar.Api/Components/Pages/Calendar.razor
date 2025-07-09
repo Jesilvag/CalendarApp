@@ -1,5 +1,5 @@
 ﻿@using Application.Requests
-@using global::Calendar.DTOS
+@using global::Calendar.Api.DTOS
 @inject MediatR.IMediator Mediator
 <div>
     <InputDate @bind-Value="selectedDate" class="form-control"/>
@@ -62,8 +62,8 @@
     private async void AddEvent()
     {
         await modal.ShowAsync();
-       
-       // var result = Mediator.Send(eventToAdd); 
+
+       // var result = Mediator.Send(eventToAdd);
 
     }
 

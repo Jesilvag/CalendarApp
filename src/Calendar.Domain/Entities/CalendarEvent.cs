@@ -1,6 +1,6 @@
 ﻿namespace Calendar.Domain.Entities
 {
-    public class Event : Entity
+    public class CalendarEvent : Entity
     {
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }

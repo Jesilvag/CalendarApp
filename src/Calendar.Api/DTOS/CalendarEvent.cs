@@ -1,4 +1,4 @@
-﻿namespace Calendar.Api.DTOS
+﻿namespace Calendar.Web.DTOS
 {
     public class CalendarEvent
     {

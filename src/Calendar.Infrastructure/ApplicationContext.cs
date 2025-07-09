@@ -3,12 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Calendar.Infrastructure
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext(DbContextOptions<ApplicationContext> options) : DbContext(options)
     {
-
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
-
-        public DbSet<Event> Events { get; set; }
+        public DbSet<CalendarEvent> Events { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -1,12 +1,14 @@
+using Calendar.Api.Components;
 using Calendar.Application;
-using Calendar.Components;
+using Calendar.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddBlazorBootstrap();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
 builder.Services.AddApplicationServices();
+
+builder.Services.AddInfrastructureServices(builder.Configuration.GetConnectionString("DefaultConnection") ?? "CalendarDb");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,4 +27,4 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.Run();
+await app.RunAsync();

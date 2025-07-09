@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Calendar.Application.Abstractions;
+using Calendar.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Calendar.Infrastructure
@@ -7,6 +9,7 @@ namespace Calendar.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, string connectionString)
         {
+            services.AddScoped<IEventRepository, EventRepository>();
             services.AddDbContext<ApplicationContext>(options =>
             {
                 options.UseInMemoryDatabase(connectionString);
