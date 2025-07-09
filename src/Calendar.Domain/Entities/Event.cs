@@ -1,12 +1,11 @@
-﻿namespace Calendar.DTOS
+﻿namespace Calendar.Domain.Entities
 {
-    public class CalendarEvent
+    public class Event : Entity
     {
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-
-        public string Location { get; set; } = string.Empty;
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
     }
 }

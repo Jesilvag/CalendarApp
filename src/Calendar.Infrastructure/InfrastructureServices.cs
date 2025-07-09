@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure
+namespace Calendar.Infrastructure
 {
     public static class InfrastructureServices
     {

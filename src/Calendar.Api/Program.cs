@@ -1,5 +1,5 @@
+using Calendar.Application;
 using Calendar.Components;
-using Application;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddBlazorBootstrap();
 // Add services to the container.

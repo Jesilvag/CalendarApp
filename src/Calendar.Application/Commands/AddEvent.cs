@@ -1,9 +1,9 @@
-﻿using Application.Requests;
-using Domain.Entities;
-using Infrastructure;
+﻿using Calendar.Application.Requests;
+using Calendar.Domain.Entities;
+using Calendar.Infrastructure;
 using MediatR;
 
-namespace Application.Commands
+namespace Calendar.Application.Commands
 {
     public class AddEvent : IRequestHandler<AddEventRequest, int>
     {
@@ -23,7 +23,7 @@ namespace Application.Commands
                 Location = request.Location
             };
             await _context.AddAsync(entity);
-           await  _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return entity.Id;
         }
     }

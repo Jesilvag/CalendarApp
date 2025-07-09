@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities
+﻿namespace Calendar.Domain.Entities
 {
     public class Entity
     {

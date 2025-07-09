@@ -1,8 +1,8 @@
-﻿using Domain.Entities;
+﻿using Calendar.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Configurations
+namespace Calendar.Infrastructure.Configurations
 {
     public class EventConfiguration : IEntityTypeConfiguration<Event>
     {
