@@ -1,0 +1,69 @@
+﻿@page "/events"
+@using Calendar.Application.DTOs
+@using Calendar.Web.Api
+@using Calendar.Web.DTOS
+@inject IEventsApi _events
+
+<div class="mb-3">
+    <InputDate @bind-Value="date" class="form-control" />
+</div>
+
+<button class="btn btn-primary mb-3" @onclick="() => modal!.ShowAsync()">Add</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in events)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.StartDate</td>
+                <td>@item.EndDate</td>
+                <td>@item.Location</td>
+                <td>@item.Description</td>
+                <td>
+                    <button class="btn btn-danger"
+                            @onclick="() => EditEvent(item.Id)">Edit</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<AddEventModal @ref="modal" OnEventAdded="LoadEvents" />
+
+@code {
+    private AddEventModal? modal = default!;
+    private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
+
+    private List<CalendarEventDto> events = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadEvents();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadEvents()
+    {
+        // Pass DateOnly directly to the API
+        events = (await _events.GetByDateAsync(date)).ToList();
+    }
+
+    private async Task EditEvent(int id)
+    {
+        // Simulate async behavior to resolve CS1998
+        await Task.CompletedTask;
+
+        // TODO: Implement the actual logic for editing an event
+    }
+}

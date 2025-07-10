@@ -1,0 +1,43 @@
+﻿@using global::Calendar.Application.Commands.Events
+@using global::Calendar.Web.Api
+@inject IEventsApi EventsApi
+
+<Modal @ref="addModal" Title="New event">
+    <BodyTemplate>
+        <EditForm Model="_model" OnValidSubmit="Save">
+            <InputText @bind-Value="_model.Title" placeholder="Title" class="form-control" />
+            <InputDate @bind-Value="_model.StartDate" class="form-control" />
+            <InputDate @bind-Value="_model.EndDate" class="form-control" />
+            <InputText @bind-Value="_model.Location" placeholder="Location" class="form-control" />
+            <InputTextArea @bind-Value="_model.Description" class="form-control" />
+        </EditForm>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="() => addModal.HideAsync()">Cancel</Button>
+        <Button Color="ButtonColor.Primary" @onclick="Save">Save</Button>
+    </FooterTemplate>
+</Modal>
+
+@code {
+    private Modal addModal = default!;
+
+    public Task ShowAsync() => addModal.ShowAsync();
+    public Task HideAsync() => addModal.HideAsync();
+    private AddEventCommand _model = new()
+    {
+        StartDate = DateOnly.FromDateTime(DateTime.Today),
+        EndDate = DateOnly.FromDateTime(DateTime.Today),
+        Title = string.Empty,
+        Description = string.Empty,
+        Location = string.Empty
+    };
+
+    private async Task Save()
+    {
+        await EventsApi.CreateAsync(_model);
+        await addModal.HideAsync();
+        await OnEventAdded.InvokeAsync();      // event callback to parent
+    }
+
+    [Parameter] public EventCallback OnEventAdded { get; set; }
+}

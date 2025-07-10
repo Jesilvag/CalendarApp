@@ -1,30 +1,41 @@
-using Calendar.Api.Components;
+using Calendar.Api.Profiles;
 using Calendar.Application;
 using Calendar.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddBlazorBootstrap();
+
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+
+builder.Services.AddControllers();
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
 builder.Services.AddApplicationServices();
-
-builder.Services.AddInfrastructureServices(builder.Configuration.GetConnectionString("DefaultConnection") ?? "CalendarDb");
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+builder.Services.AddInfrastructureServices("CalendarDb");
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddCors(opts =>
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    opts.AddPolicy("WebClient", p =>
+        p.WithOrigins(builder.Configuration["WebClientUrl"] ?? "https://localhost:5002")
+         .AllowAnyMethod()
+         .AllowAnyHeader());
+});
+
+var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
-app.UseAntiforgery();
+app.UseCors("WebClient");
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.UseAuthorization();
+
+app.MapControllers();
 
 await app.RunAsync();

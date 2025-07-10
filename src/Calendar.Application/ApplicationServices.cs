@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Calendar.Api.Profiles;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Calendar.Application
@@ -8,7 +9,7 @@ namespace Calendar.Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddMediatR(opt => opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(typeof(MappingProfile));
             return services;
         }
     }
