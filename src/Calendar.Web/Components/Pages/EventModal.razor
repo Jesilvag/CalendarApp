@@ -1,0 +1,100 @@
+﻿@using Calendar.Application.DTOs
+@using global::Calendar.Application.Commands.Events
+@using global::Calendar.Web.Api
+@inject IEventsApi EventsApi
+
+<Modal @ref="modal" Title="New event">
+    <BodyTemplate>
+        <EditForm Model="_form" OnValidSubmit="Save" class="form">
+            <InputText @bind-Value="_form.Title" placeholder="Title" class="form-control mb-3" />
+            <InputDate @bind-Value="_form.StartDate" class="form-control mb-3" />
+            <InputDate @bind-Value="_form.EndDate" class="form-control mb-3" />
+            <InputText @bind-Value="_form.Location" placeholder="Location" class="form-control mb-3" />
+            <InputTextArea @bind-Value="_form.Description" class="form-control mb-3" />
+        </EditForm>
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="() => modal.HideAsync()">Cancel</Button>
+        <Button Color="ButtonColor.Primary" @onclick="Save">Save</Button>
+    </FooterTemplate>
+</Modal>
+
+@code {
+    private CalendarEventForm _form = new();
+
+    private Modal modal = default!;
+
+    public Task ShowCreateAsync()
+    {
+        _isEdit = false;
+        _form = new();
+        return modal.ShowAsync();
+    }
+
+    public Task ShowEditAsync(CalendarEventDto dto)
+    {
+        _isEdit = true;
+        _form = new(dto);
+
+        return modal.ShowAsync();
+    }
+
+    private bool _isEdit;
+
+    private async Task Save()
+    {
+        if (_isEdit)
+        {
+            UpdateEventCommand _model = new()
+            {
+                Id = _form.Id,
+                StartDate = _form.StartDate,
+                EndDate = _form.EndDate,
+                Title = _form.Title,
+                Description = _form.Description,
+                Location = _form.Location,
+            };
+            await EventsApi.UpdateAsync(_model.Id, _model);
+
+        }
+        else
+        {
+            AddEventCommand command = new()
+            {
+                StartDate = _form.StartDate,
+                EndDate = _form.EndDate,
+                Title = _form.Title,
+                Description = _form.Description,
+                Location = _form.Location
+            };
+            await EventsApi.CreateAsync(command);
+        }
+
+        await modal.HideAsync();
+        await OnEventChanged.InvokeAsync();
+    }
+
+    [Parameter] public EventCallback OnEventChanged { get; set; }
+
+    public class CalendarEventForm
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = "";
+        public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+        public DateOnly EndDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+        public string Location { get; set; } = "Teams";
+        public string? Description { get; set; }
+
+        public CalendarEventForm() { }
+        public CalendarEventForm(CalendarEventDto dto)
+        {
+            Id = dto.Id;
+            Title = dto.Title;
+            StartDate = dto.StartDate;
+            EndDate = dto.EndDate;
+            Location = dto.Location;
+            Description = dto.Description;
+        }
+    }
+}
+

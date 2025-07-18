@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using Calendar.Application.DTOs;
+using MediatR;
 
 namespace Calendar.Application.Commands.Events
 {
-    public class AddEventCommand : IRequest<int>
+    public class UpdateEventCommand : IRequest<CalendarEventDto>
     {
+        public int Id { get; set; }
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
         public string Title { get; set; } = string.Empty;

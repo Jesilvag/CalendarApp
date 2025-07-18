@@ -8,7 +8,7 @@
     <InputDate @bind-Value="date" class="form-control" />
 </div>
 
-<button class="btn btn-primary mb-3" @onclick="() => modal!.ShowAsync()">Add</button>
+<button class="btn btn-primary mb-3" @onclick="() => modal!.ShowCreateAsync()">Add</button>
 
 <table class="table">
     <thead>
@@ -32,17 +32,17 @@
                 <td>@item.Description</td>
                 <td>
                     <button class="btn btn-danger"
-                            @onclick="() => EditEvent(item.Id)">Edit</button>
+                            @onclick="() => modal!.ShowEditAsync(item)">Edit</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<AddEventModal @ref="modal" OnEventAdded="LoadEvents" />
+<EventModal @ref="modal" OnEventChanged="LoadEvents" />
 
 @code {
-    private AddEventModal? modal = default!;
+    private EventModal? modal = default!;
     private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
 
     private List<CalendarEventDto> events = new();
@@ -55,15 +55,6 @@
 
     private async Task LoadEvents()
     {
-        // Pass DateOnly directly to the API
         events = (await _events.GetByDateAsync(date)).ToList();
-    }
-
-    private async Task EditEvent(int id)
-    {
-        // Simulate async behavior to resolve CS1998
-        await Task.CompletedTask;
-
-        // TODO: Implement the actual logic for editing an event
     }
 }

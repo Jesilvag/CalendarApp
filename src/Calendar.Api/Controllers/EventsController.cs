@@ -8,10 +8,9 @@ namespace Calendar.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class EventsController : ControllerBase
+public class EventsController(IMediator mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-    public EventsController(IMediator mediator) => _mediator = mediator;
+    private readonly IMediator _mediator = mediator;
 
     // POST /api/events  – create (Write model)
     [HttpPost]
@@ -31,7 +30,7 @@ public class EventsController : ControllerBase
         return evt is null ? NotFound() : Ok(evt);
     }
 
-    // Get /api/events?date=2025-07-01  – get events by date
+    // Get /api/events?date=2025-07-01
     [HttpGet()]
     public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetByDate([FromQuery] DateOnly date, CancellationToken ct)
     {
@@ -39,25 +38,15 @@ public class EventsController : ControllerBase
         return Ok(events);
     }
 
-    //// GET /api/events?from=2025-07-01&to=2025-07-31  – search window
-    //[HttpGet]
-    //public Task<IEnumerable<CalendarEventDto>> Search(
-    //    [FromQuery] DateOnly? from,
-    //    [FromQuery] DateOnly? to,
-    //    CancellationToken ct) =>
-    //    _mediator.Send(new SearchEventsQuery(from, to), ct);
 
-    //// PUT /api/events/{id}  – update basic fields
-    //[HttpPut("{id:int}")]
-    //public Task<IActionResult> Update(int id,
-    //    [FromBody] UpdateEventRequest request,
-    //    CancellationToken ct) =>
-    //    _mediator.Send(new UpdateEventCommand(id, request), ct)
-    //             .ContinueWith(_ => NoContent(), ct);
-
-    //// DELETE /api/events/{id}
-    //[HttpDelete("{id:int}")]
-    //public Task<IActionResult> Delete(int id, CancellationToken ct) =>
-    //    _mediator.Send(new DeleteEventCommand(id), ct)
-    //             .ContinueWith(_ => NoContent(), ct);
+    // put /api/events/{id}
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id,
+        [FromBody] UpdateEventCommand request,
+        CancellationToken ct)
+    {
+        request.Id = id;
+        var result = await _mediator.Send(request, ct);
+        return Ok(result);
+    }
 }
